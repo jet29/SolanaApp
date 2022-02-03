@@ -1,5 +1,5 @@
 import React, { FC, useState} from 'react';
-import { SendOzoneToken } from './SendOzoneToken';
+import { TransferTokenCluster } from './TransferTokenCluster';
 import {
     WalletModalProvider,
     WalletDisconnectButton,
@@ -57,10 +57,7 @@ export const App: FC = () => {
                     </Sider>
                     <Content>
                         {
-                            current === "get-ozone-tokens" &&
-                            <Row>
-                                <SendOzoneToken/>
-                            </Row>
+                            current === "get-ozone-tokens" && <TransferTokenCluster/>
                         }
                     </Content>
                 </Layout>

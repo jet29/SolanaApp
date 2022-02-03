@@ -4,13 +4,13 @@ import * as web3 from '@solana/web3.js';
 import * as splToken from "@solana/spl-token";
 import { FC } from 'react';
 import axios from 'axios';
-import { Button, Row } from 'antd';
+import { Button, Row, Col } from 'antd';
 
-export const SendOzoneToken: FC = () => {
+export const TransferTokenCluster: FC = () => {
     const { connection } = useConnection();
     const { publicKey, signTransaction } = useWallet();
 
-    let AdminToUserBackend = async () => {
+    let AdminToUser = async () => {
         const data = { publicKey: publicKey?.toString() };
         axios.post('http://localhost:3001/solana/send', data)
             .then(response => {
@@ -18,13 +18,12 @@ export const SendOzoneToken: FC = () => {
         });
     };
 
-    let UserToAdminBackend = async () => {
+    let UserToAdmin = async () => {
 
         if(publicKey !== null && signTransaction){
             const data = { publicKey: publicKey?.toString() };
             
             let response = await axios.post('http://localhost:3001/solana/receive', data);
-            console.log(response);
 
             const fromTokenAccountAddress = response.data.fromTokenAccountAddress;
             const toTokenAccountAddress = response.data.toTokenAccountAddress;
@@ -54,15 +53,17 @@ export const SendOzoneToken: FC = () => {
     };
 
     return (
-        <>
-            <Button type="primary" onClick={()=>{UserToAdminBackend()}} disabled={!publicKey}>
-                    Send Ozone Tokens
-            </Button>
-            <Row>
-                <Button type="primary" onClick={()=>{AdminToUserBackend()}} disabled={!publicKey}>
+        <Row>
+            <Col span={4}>
+                <Button type="primary" onClick={()=>{UserToAdmin()}} disabled={!publicKey}>
+                        Send Ozone Tokens
+                </Button>
+            </Col>
+            <Col span={4}>
+                <Button type="primary" onClick={()=>{AdminToUser()}} disabled={!publicKey}>
                     Get Ozone Tokens
                 </Button>
-            </Row>
-        </> 
+            </Col>
+        </Row> 
     );
 };
