@@ -1,0 +1,74 @@
+@import '~antd/dist/antd.css';
+
+.app-text{
+  color:white;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.ant-layout{
+  min-height: 100vh;
+}
+
+.ant-menu.ant-menu-root{
+  background-color: #79ace6;
+}
+
+.ant-layout-header,
+.ant-layout-footer {
+  min-height: 100px;
+  padding: 25px;
+  color: #fff;
+  background: #033771;
+}
+[data-theme="dark"] .ant-layout-header {
+  background: #033771;
+}
+[data-theme="dark"] .ant-layout-footer {
+  background: #033771;
+}
+.ant-layout-footer {
+  line-height: 1.5;
+}
+.ant-layout-sider {
+  color: #fff;
+  line-height: 120px;
+  background: #033771;
+}
+[data-theme="dark"] .ant-layout-sider {
+  background: #033771;
+}
+.ant-layout-content {
+  padding: 50px;
+  min-height: 120px;
+  color: #fff;
+  line-height: 120px;
+  background: #031c3a;
+}
+[data-theme="dark"] .ant-layout-content {
+  background: #033771;
+}
+
+.ant-menu-item a{
+  color: white;
+}
+
+.ant-form-item-required{
+  color: white !important;
+}
+
+.ant-typography{
+  color: white !important;
+}
