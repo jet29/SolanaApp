@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
     res.send("response");
 });
 
-const sendTokens = async (publicKey) => {
+const sendTokens = async (publicKey,qty) => {
     if(publicKey !== null){
 
         const WALLET_SECRET_KEY = new Uint8Array([45,244,159,225,254,84,121,30,53,141,213,11,111,248,156,235,123,125,247,68,161,149,133,238,121,114,81,173,62,231,32,98,219,80,162,228,85,132,118,183,255,42,91,176,203,223,27,204,140,22,131,229,122,246,84,31,93,242,31,104,191,190,230,71]);
@@ -66,7 +66,7 @@ const sendTokens = async (publicKey) => {
                 toTokenAccount.address,
                 adminWallet.publicKey,
                 [],
-                1 * web3.LAMPORTS_PER_SOL
+                qty * web3.LAMPORTS_PER_SOL
             )
         );
         // Sign transaction, broadcast, and confirm
@@ -120,14 +120,19 @@ const receiveTokens = async (publicKey) => {
 
 }
 
-
+/**
+ * endpoint to send tokens from admin to user
+ */
 router.post('/send', function(req, res, next) {
 
     const stringPublicKey = req.body.publicKey;
     const publicKey = new web3.PublicKey(stringPublicKey);
+    const qty = parseInt(req.body.qty);
+
+    console.log(`sending ${qty} tokens to wallet address ${publicKey.toString()}`);
 
     try{
-        sendTokens(publicKey).then(result => {
+        sendTokens(publicKey,qty).then(result => {
             res.send(result);
         });
     }catch(e){
@@ -135,6 +140,9 @@ router.post('/send', function(req, res, next) {
     }
 });
 
+/**
+ * endpoint to send tokens from user to admin
+ */
 router.post('/receive', function(req, res, next) {
 
     const stringPublicKey = req.body.publicKey;

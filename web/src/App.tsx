@@ -6,9 +6,7 @@ import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 
-import { Layout, Menu, Typography, Row, Col, Form, Input, Button  } from 'antd';
-const { Title } = Typography;
-
+import { Layout, Menu, Row, Col} from 'antd';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -25,14 +23,6 @@ export const App: FC = () => {
         console.log('click ', e);
         setCurrent(e.key);
     };
-
-    let onFinish = () =>{
-
-    }
-
-    let onFinishFailed = () =>{
-
-    }
 
     return (
         <WalletModalProvider>

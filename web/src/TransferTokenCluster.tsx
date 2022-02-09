@@ -5,14 +5,31 @@ import * as splToken from "@solana/spl-token";
 import { FC } from 'react';
 import axios from 'axios';
 import { Button, Row, Col } from 'antd';
+import * as airdropData from './data/aidrop.json';
+import { convertModuleToArray } from './data/utils';
 
 export const TransferTokenCluster: FC = () => {
     const { connection } = useConnection();
     const { publicKey, signTransaction } = useWallet();
 
-    let AdminToUser = async () => {
-        const data = { publicKey: publicKey?.toString() };
-        axios.post('http://localhost:3001/solana/send', data)
+
+    /**
+     * mass aidrop is a function that receives a json with an array of address 
+     * with the number of tokens to send to that address
+     */
+    let MassAirdrop = async () => {
+        if(airdropData){
+            const airdropA = convertModuleToArray(airdropData);
+            for(let i = 0; i < airdropA.length; i++) {
+                console.log(`sending ${airdropA[i].qty} tokens to wallet address ${airdropA[i].wallet}`)
+                await AdminToUser(airdropA[i].wallet,airdropA[i].qty);
+            }
+        }
+    }
+
+    let AdminToUser = async (toPK : string, qty : number) => {
+        const data = { publicKey: toPK, qty};
+        return axios.post('http://localhost:3001/solana/send', data)
             .then(response => {
                 console.log(response);
         });
@@ -60,8 +77,16 @@ export const TransferTokenCluster: FC = () => {
                 </Button>
             </Col>
             <Col span={4}>
-                <Button type="primary" onClick={()=>{AdminToUser()}} disabled={!publicKey}>
+                <Button type="primary" onClick={()=>{
+                    if(publicKey) AdminToUser(publicKey.toString(),1);
+                }
+                } disabled={!publicKey}>
                     Get Ozone Tokens
+                </Button>
+            </Col>
+            <Col span={4}>
+                <Button type="primary" onClick={()=>{MassAirdrop()}} disabled={!publicKey}>
+                        Mass airdrop
                 </Button>
             </Col>
         </Row> 
